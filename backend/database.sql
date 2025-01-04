@@ -29,3 +29,41 @@ CREATE TABLE login_db (
 -- Select statements
 SELECT * FROM registration_db;
 SELECT * FROM login_db;
+
+-- Complex Queries
+
+-- 1. Retrieve all users above a certain age
+SELECT * FROM registration_db
+WHERE age > 30;
+
+-- 2. Find the user with the most recent registration
+SELECT * FROM registration_db
+ORDER BY id DESC
+LIMIT 1;
+
+-- 3. Join registration_db and login_db tables to get user details and their login information
+SELECT registration_db.name, registration_db.email, login_db.email, login_db.password 
+FROM registration_db
+JOIN login_db ON registration_db.id = login_db.registration_id;
+
+-- 4. Count the number of users registered
+SELECT COUNT(*) AS total_users FROM registration_db;
+
+-- 5. Find users whose email ends with a specific domain
+SELECT * FROM registration_db
+WHERE email LIKE '%@example.com';
+
+-- 6. Retrieve users who have registered but have no login record yet
+SELECT registration_db.* 
+FROM registration_db
+LEFT JOIN login_db ON registration_db.id = login_db.registration_id
+WHERE login_db.id IS NULL;
+
+-- 7. Complex search using multiple conditions
+SELECT registration_db.*
+FROM registration_db
+LEFT JOIN login_db ON registration_db.id = login_db.registration_id
+WHERE registration_db.age > 25 AND login_db.id IS NULL AND registration_db.email LIKE '%@example.com';
+
+-- 8. Aggregate function to find the average age of registered users
+SELECT AVG(age) AS average_age FROM registration_db;
