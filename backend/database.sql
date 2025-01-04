@@ -1,6 +1,5 @@
 -- Create the database
-CREATE DATABASE  Research_Hub;
-
+CREATE DATABASE Research_Hub;
 
 -- Use the newly created database
 USE Research_Hub;
@@ -18,8 +17,7 @@ CREATE TABLE registration_db (
     password VARCHAR(255) NOT NULL
 );
 
-
-
+-- Create the login_db table
 CREATE TABLE login_db (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
@@ -28,6 +26,6 @@ CREATE TABLE login_db (
     FOREIGN KEY (registration_id) REFERENCES registration_db(id)
 );
 
-
+-- Select statements
 SELECT * FROM registration_db;
 SELECT * FROM login_db;
