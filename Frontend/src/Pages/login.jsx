@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', { email, password });
-      setMessage('User login successful');
-      console.log(response.data);
+      if (response.data.success) {
+        setMessage('Login successful!');
+        setTimeout(() => navigate('/dashboard'), 2000);
+      } else {
+        setMessage(response.data.message || 'Invalid email or password.');
+      }
     } catch (error) {
-      console.error('There was an error logging in!', error);
-      setMessage('Error logging in. Please try again.');
+      console.error('Error during login:', error);
+      setMessage('An error occurred while logging in. Please try again later.');
     }
+  };
+
+  const handleRegister = () => {
+    navigate('/register');
   };
 
   return (
@@ -50,6 +60,12 @@ const Login = () => {
             Login
           </button>
         </form>
+        <button
+          onClick={handleRegister}
+          className="mt-4 w-full bg-pink-600 text-white p-3 rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50"
+        >
+          Register
+        </button>
         {message && <div className="mt-4 text-center text-green-500 font-bold">{message}</div>}
       </div>
     </div>
