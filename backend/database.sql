@@ -1,6 +1,6 @@
 -- Create the database
 CREATE DATABASE Research_Hub;
-
+-- DROP DATABASE IF EXISTS Research_Hub;
 -- Use the newly created database
 USE Research_Hub;
 
@@ -26,11 +26,11 @@ CREATE TABLE login_db (
     FOREIGN KEY (registration_id) REFERENCES registration_db(id)
 );
 
--- Select statements
+
 SELECT * FROM registration_db;
 SELECT * FROM login_db;
 
--- Complex Queries
+
 
 -- 1. Retrieve all users above a certain age
 SELECT * FROM registration_db
@@ -46,7 +46,7 @@ SELECT registration_db.name, registration_db.email, login_db.email, login_db.pas
 FROM registration_db
 JOIN login_db ON registration_db.id = login_db.registration_id;
 
--- 4. Count the number of users registered
+
 SELECT COUNT(*) AS total_users FROM registration_db;
 
 -- 5. Find users whose email ends with a specific domain
@@ -65,5 +65,5 @@ FROM registration_db
 LEFT JOIN login_db ON registration_db.id = login_db.registration_id
 WHERE registration_db.age > 25 AND login_db.id IS NULL AND registration_db.email LIKE '%@example.com';
 
--- 8. Aggregate function to find the average age of registered users
+-- 8. Aggregate function
 SELECT AVG(age) AS average_age FROM registration_db;
