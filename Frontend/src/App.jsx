@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import Login from './Pages/login';
 import Registration from './Pages/Registration';
 import Dashboard from './Dashboard';
-
+import Dash from './component/DashHome'; // Import DashHome
 
 
 
