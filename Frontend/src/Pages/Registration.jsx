@@ -5,13 +5,13 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [age, setAge] = useState('');
+  const [role, setRole] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/register', { name, email, password, age });
+      const response = await axios.post('http://localhost:5000/register', { name, email, password, role });
       setMessage(response.data.message || 'Registration successful!');
     } catch (error) {
       console.error('Error during registration:', error);
@@ -55,14 +55,31 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Age</label>
-            <input
-              type="number"
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              required
-            />
+            <label className="block text-sm font-medium text-gray-700">Role</label>
+            <div className="flex items-center space-x-4 mt-2">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="Student"
+                  className="form-radio text-indigo-600 focus:ring-indigo-500 focus:ring-2"
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                />
+                <span className="ml-2">Student</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="role"
+                  value="Teacher"
+                  className="form-radio text-indigo-600 focus:ring-indigo-500 focus:ring-2"
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                />
+                <span className="ml-2">Teacher</span>
+              </label>
+            </div>
           </div>
           <button
             type="submit"

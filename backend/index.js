@@ -63,15 +63,15 @@ app.post('/login', (req, res) => {
 
 // Register route
 app.post('/register', (req, res) => {
-  const { name, email, age, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   // Validate request body
-  if (!name || !email || !age || !password) {
+  if (!name || !email || !password || !role) {
     return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
 
-  const query = 'INSERT INTO registration_db (name, email, age, password) VALUES (?, ?, ?, ?)';
-  db.query(query, [name, email, age, password], (err) => {
+  const query = 'INSERT INTO registration_db (name, email, password, role) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, email, password, role], (err) => {
     if (err) {
       if (err.code === 'ER_DUP_ENTRY') {
         return res.status(400).json({ success: false, message: 'Email already exists.' });
@@ -83,7 +83,6 @@ app.post('/register', (req, res) => {
     return res.json({ success: true, message: 'User registration successful.' });
   });
 });
-
 
 // Start the server
 app.listen(port, () => {

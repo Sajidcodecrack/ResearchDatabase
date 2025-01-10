@@ -13,7 +13,7 @@ CREATE TABLE registration_db (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    age INT NOT NULL,
+    role ENUM('Student', 'Teacher') NOT NULL,
     password VARCHAR(255) NOT NULL
 );
 
@@ -30,11 +30,9 @@ CREATE TABLE login_db (
 SELECT * FROM registration_db;
 SELECT * FROM login_db;
 
-
-
--- 1. Retrieve all users above a certain age
+-- 1. Retrieve all users with a specific role
 SELECT * FROM registration_db
-WHERE age > 30;
+WHERE role = 'Student';
 
 -- 2. Find the user with the most recent registration
 SELECT * FROM registration_db
@@ -46,7 +44,7 @@ SELECT registration_db.name, registration_db.email, login_db.email, login_db.pas
 FROM registration_db
 JOIN login_db ON registration_db.id = login_db.registration_id;
 
-
+-- 4. Count total users
 SELECT COUNT(*) AS total_users FROM registration_db;
 
 -- 5. Find users whose email ends with a specific domain
@@ -63,7 +61,9 @@ WHERE login_db.id IS NULL;
 SELECT registration_db.*
 FROM registration_db
 LEFT JOIN login_db ON registration_db.id = login_db.registration_id
-WHERE registration_db.age > 25 AND login_db.id IS NULL AND registration_db.email LIKE '%@example.com';
+WHERE registration_db.role = 'Teacher' AND login_db.id IS NULL AND registration_db.email LIKE '%@example.com';
 
 -- 8. Aggregate function
-SELECT AVG(age) AS average_age FROM registration_db;
+SELECT COUNT(*) AS total_students, COUNT(*) AS total_teachers
+FROM registration_db
+WHERE role = 'Student' OR role = 'Teacher';
