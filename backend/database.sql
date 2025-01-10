@@ -1,6 +1,6 @@
 -- Create the database
 CREATE DATABASE Research_Hub;
--- DROP DATABASE IF EXISTS Research_Hub;
+ DROP DATABASE IF EXISTS Research_Hub;
 -- Use the newly created database
 USE Research_Hub;
 

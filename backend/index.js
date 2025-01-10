@@ -26,11 +26,29 @@ db.connect((err) => {
   console.log('Database connected!');
 });
 
+// Verify password route
+app.post('/verifyPassword', (req, res) => {
+  const { role, password } = req.body;
+
+  const query = 'SELECT * FROM registration_db WHERE role = ? AND password = ?';
+  db.query(query, [role, password], (err, results) => {
+    if (err) {
+      console.error('Database query error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+
+    if (results.length > 0) {
+      return res.json({ success: true, message: 'Password verified.' });
+    } else {
+      return res.status(401).json({ success: false, message: 'Incorrect password.' });
+    }
+  });
+});
+
 // Login route
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  // Validate request body
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Email and password are required.' });
   }
@@ -43,7 +61,6 @@ app.post('/login', (req, res) => {
     }
 
     if (results.length > 0) {
-      // User found, insert login attempt into login_db
       const registrationId = results[0].id;
       const loginQuery = 'INSERT INTO login_db (email, password, registration_id) VALUES (?, ?, ?)';
 
@@ -65,7 +82,6 @@ app.post('/login', (req, res) => {
 app.post('/register', (req, res) => {
   const { name, email, password, role } = req.body;
 
-  // Validate request body
   if (!name || !email || !password || !role) {
     return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
