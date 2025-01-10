@@ -26,7 +26,7 @@ db.connect((err) => {
   console.log('Database connected!');
 });
 
-// Verify password route
+// Verify password route of dashboard
 app.post('/verifyPassword', (req, res) => {
   const { role, password } = req.body;
 

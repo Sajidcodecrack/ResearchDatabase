@@ -12,8 +12,14 @@ const Dashboard = () => {
   const [password, setPassword] = useState('');
 
   const handleNavigation = (role) => {
-    setSelectedRole(role);
-    setModalIsOpen(true);
+    if (role === 'paper') {
+      // Direct navigation for the Papers section
+      navigate('/paper');
+    } else {
+      // Trigger the modal for student and teacher roles
+      setSelectedRole(role);
+      setModalIsOpen(true);
+    }
   };
 
   const handlePasswordSubmit = () => {
@@ -75,14 +81,29 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
-          <h2>Enter Password</h2>
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handlePasswordSubmit}>Submit</button>
+        {/* Password Modal with Tailwind CSS */}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          className="flex justify-center items-center p-6"
+          overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+        >
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full">
+            <h2 className="text-2xl font-semibold text-center mb-6">Enter Your Password</h2>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="*****"
+            />
+            <button
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 focus:outline-none"
+              onClick={handlePasswordSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </Modal>
       </div>
     </div>
