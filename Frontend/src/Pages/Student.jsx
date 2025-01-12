@@ -1,11 +1,23 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import AssignedTopics from '../components/AssignedTopic'
+import SubmitResearchPaper from '../components/SubmitResearch'
+import RequestGuidance from '../components/RequestGuidance'
+import CollaborationRequests from '../components/Collaboration'
 
-function Student() {
+const Student = () => {
   return (
-    <div>welcome to the student page </div>
-  )
-}
+    <div className="min-h-screen bg-gray-100 p-6">
+      <header className="text-center mb-10">
+        <h1 className="text-3xl font-bold text-gray-800">Research Project Managment</h1>
+      </header>
+      <main className="space-y-10">
+        <AssignedTopics></AssignedTopics>
+        <SubmitResearchPaper></SubmitResearchPaper>
+        <RequestGuidance></RequestGuidance>
+        <CollaborationRequests></CollaborationRequests>
+      </main>
+    </div>
+  );
+};
 
 export default Student
