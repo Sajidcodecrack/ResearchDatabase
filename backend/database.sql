@@ -163,7 +163,7 @@ FROM papers
 GROUP BY
     keywords
 ORDER BY usage_count DESC
-LIMIT 5;
+LIMIT 2;
 
 -- 13. Retrieve all papers authored by users with the most logins
 SELECT p.title, p.abstract, r.name AS author_name, d.login_count
@@ -211,7 +211,7 @@ FROM
     registration_db r
     LEFT JOIN dashboard d ON r.id = d.registration_id
 WHERE
-    d.last_login >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+    d.last_login >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
 GROUP BY
     r.role;
 
@@ -242,36 +242,16 @@ WHERE
             p.id = r.id
     );
 
-SELECT title,
-abstract,
-CASE
-    WHEN LENGTH(abstract) < 100 THEN 'Short'
-    WHEN LENGTH(abstract) BETWEEN 100 AND 200  THEN 'Medium'
-    ELSE 'Long'
-END AS abstract_length_category
-FROM papers;
- uploaded multiple papers, along with paper details and upload timestamps
 SELECT
-    r.name AS user_name,
-    r.email,
-    p.title AS paper_title,
-    p.abstract,
-    p.keywords,
-    p.pdf_path,
-    p.id AS paper_id,
-    p.upload_time AS upload_timestamp
-FROM registration_db r
-JOIN papers p ON r.id = p.id
-WHERE r.id IN (
-    SELECT id
-    FROM (
-        SELECT id, COUNT(*) AS paper_count
-        FROM papers
-        GROUP BY id
-        HAVING COUNT(*) > 1
-    ) AS multiple_paper_authors
-)
-ORDER BY r.name, p.upload_time;
+    title,
+    abstract,
+    CASE
+        WHEN LENGTH(abstract) < 100 THEN 'Short'
+        WHEN LENGTH(abstract) BETWEEN 100 AND 200  THEN 'Medium'
+        ELSE 'Long'
+    END AS abstract_length_category
+FROM papers;
+
 
 
 SELECT * FROM registration_db;
@@ -281,4 +261,6 @@ SELECT * FROM login_db;
 SELECT * FROM dashboard;
 
 SELECT * FROM papers;
-ALTER TABLE papers ADD COLUMN upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE papers
+ADD COLUMN upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
