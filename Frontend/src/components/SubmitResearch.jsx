@@ -73,6 +73,7 @@ const SubmitResearchPaper = () => {
           />
         </div>
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
+        
       </form>
     </div>
   );

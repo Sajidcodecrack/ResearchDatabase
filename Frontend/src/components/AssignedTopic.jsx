@@ -5,6 +5,7 @@ const AssignedTopics = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
+    // Make sure the API endpoint URL is correct
     axios.get('http://localhost:5000/api/topics')
       .then(response => {
         setTopics(response.data);
@@ -20,7 +21,7 @@ const AssignedTopics = () => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'paper.pdf');
+        link.setAttribute('download', `paper_${id}.pdf`);
         document.body.appendChild(link);
         link.click();
       })
