@@ -4,23 +4,21 @@ const mysql = require('mysql');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 
 const app = express();
 const port = 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Database configuration
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'sajid123456', // Replace with your MySQL password
+  password: 'sajid123456',
   database: 'Research_Hub',
 });
 
-// Connect to the database
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err.message);
@@ -29,22 +27,19 @@ db.connect((err) => {
   console.log('Database connected!');
 });
 
-// File upload configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Append extension
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
 const upload = multer({ storage: storage });
 
-// Verify password route of dashboard
 app.post('/verifyPassword', (req, res) => {
   const { role, password } = req.body;
-
   const query = 'SELECT * FROM registration_db WHERE role = ? AND password = ?';
   db.query(query, [role, password], (err, results) => {
     if (err) {
@@ -60,7 +55,6 @@ app.post('/verifyPassword', (req, res) => {
   });
 });
 
-// Login route
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -93,7 +87,6 @@ app.post('/login', (req, res) => {
   });
 });
 
-// Register route
 app.post('/register', (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -115,7 +108,6 @@ app.post('/register', (req, res) => {
   });
 });
 
-// Upload research paper route
 app.post('/upload', upload.single('pdf'), (req, res) => {
   const { title, abstract, keywords } = req.body;
   const pdfPath = req.file.path;
@@ -130,7 +122,6 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
   });
 });
 
-// Download research paper route
 app.get('/download/:id', (req, res) => {
   const { id } = req.params;
 
@@ -149,12 +140,36 @@ app.get('/download/:id', (req, res) => {
     res.download(pdfPath, (err) => {
       if (err) {
         console.error('Error downloading file:', err.message);
+        res.status(500).json({ success: false, message: 'Internal server error.' });
       }
     });
   });
 });
 
-// Start the server
+app.post('/favorite', (req, res) => {
+  const { paperId, userId } = req.body;
+  const query = 'INSERT INTO favorites (paper_id, user_id) VALUES (?, ?)';
+  db.query(query, [paperId, userId], (err) => {
+    if (err) {
+      console.error('Database query error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Paper favorited successfully' });
+  });
+});
+
+// New route to fetch all papers
+app.get('/papers', (req, res) => {
+  const query = 'SELECT * FROM papers';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Database query error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json(results);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

@@ -48,6 +48,13 @@ CREATE TABLE papers (
     pdf_path VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE favorites (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    paper_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (paper_id) REFERENCES papers (id),
+    FOREIGN KEY (user_id) REFERENCES registration_db (id)
+);
 -- Queries for data retrieval and complex operations:
 
 -- 1. Update login data in the dashboard table
@@ -251,8 +258,6 @@ SELECT
         ELSE 'Long'
     END AS abstract_length_category
 FROM papers;
-
-
 
 SELECT * FROM registration_db;
 
