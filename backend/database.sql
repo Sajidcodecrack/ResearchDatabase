@@ -1,6 +1,7 @@
+
 -- Create and use the database
 CREATE DATABASE IF NOT EXISTS Research_Hub;
-
+DROP DATABASE Research_hub;
 USE Research_Hub;
 
 -- Drop existing tables if they exist
@@ -259,6 +260,22 @@ SELECT
     END AS abstract_length_category
 FROM papers;
 
+SELECT 
+    f.id AS favorite_id,
+    p.title AS paper_title,
+    p.abstract,
+    r.name AS author_name,
+    r.email AS author_email
+FROM 
+    favorites f
+JOIN 
+    papers p ON f.paper_id = p.id
+JOIN 
+    registration_db r ON p.id = r.id
+ORDER BY 
+    f.id;
+
+
 SELECT * FROM registration_db;
 
 SELECT * FROM login_db;
@@ -266,6 +283,7 @@ SELECT * FROM login_db;
 SELECT * FROM dashboard;
 
 SELECT * FROM papers;
+SELECT * FROM favorites;
 
 ALTER TABLE papers
 ADD COLUMN upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

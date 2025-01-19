@@ -30,8 +30,18 @@ function Papers() {
     setPapers(filteredPapers);
   };
 
-  const handleFavorite = (id) => {
-    // Implement favoriting logic here (e.g., update state and make a request to the server)
+  const handleFavorite = async (id) => {
+    try {
+      const updatedPapers = papers.map((paper) =>
+        paper.id === id ? { ...paper, isFavorite: !paper.isFavorite } : paper
+      );
+      setPapers(updatedPapers);
+
+      const favoritePaper = updatedPapers.find((paper) => paper.id === id);
+      await axios.post('http://localhost:5000/favorite', { paperId: id, userId: 1 }); // Update favorite status on the server, assuming userId = 1 for example
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+    }
   };
 
   const handleUpload = async (newPaper) => {

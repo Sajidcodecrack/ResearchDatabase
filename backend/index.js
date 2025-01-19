@@ -148,13 +148,32 @@ app.get('/download/:id', (req, res) => {
 
 app.post('/favorite', (req, res) => {
   const { paperId, userId } = req.body;
-  const query = 'INSERT INTO favorites (paper_id, user_id) VALUES (?, ?)';
-  db.query(query, [paperId, userId], (err) => {
+  const query = 'SELECT * FROM favorites WHERE paper_id = ? AND user_id = ?';
+  db.query(query, [paperId, userId], (err, results) => {
     if (err) {
       console.error('Database query error:', err.message);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
-    res.json({ success: true, message: 'Paper favorited successfully' });
+
+    if (results.length > 0) {
+      const deleteQuery = 'DELETE FROM favorites WHERE paper_id = ? AND user_id = ?';
+      db.query(deleteQuery, [paperId, userId], (err) => {
+        if (err) {
+          console.error('Error removing favorite:', err.message);
+          return res.status(500).json({ success: false, message: 'Internal server error.' });
+        }
+        return res.json({ success: true, message: 'Paper unfavorited successfully' });
+      });
+    } else {
+      const insertQuery = 'INSERT INTO favorites (paper_id, user_id) VALUES (?, ?)';
+      db.query(insertQuery, [paperId, userId], (err) => {
+        if (err) {
+          console.error('Database query error:', err.message);
+          return res.status(500).json({ success: false, message: 'Internal server error.' });
+        }
+        return res.json({ success: true, message: 'Paper favorited successfully' });
+      });
+    }
   });
 });
 
