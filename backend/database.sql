@@ -1,17 +1,12 @@
-
--- Create and use the database
 CREATE DATABASE IF NOT EXISTS Research_Hub;
-DROP DATABASE Research_hub;
 USE Research_Hub;
 
 -- Drop existing tables if they exist
 DROP TABLE IF EXISTS dashboard;
-
-DROP TABLE papers;
-
 DROP TABLE IF EXISTS login_db;
-
 DROP TABLE IF EXISTS registration_db;
+DROP TABLE IF EXISTS papers;
+DROP TABLE IF EXISTS favorites;
 
 -- Create the registration_db table
 CREATE TABLE registration_db (
@@ -41,14 +36,19 @@ CREATE TABLE dashboard (
     FOREIGN KEY (registration_id) REFERENCES registration_db (id)
 );
 
+-- Create the papers table with 'uploaded_by' field
 CREATE TABLE papers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     abstract TEXT NOT NULL,
     keywords VARCHAR(255) NOT NULL,
-    pdf_path VARCHAR(255) NOT NULL
+    pdf_path VARCHAR(255) NOT NULL,
+    uploaded_by VARCHAR(255) NOT NULL DEFAULT 'unknown',  -- Ensure uploaded_by is a VARCHAR
+    upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+-- Create the favorites table
 CREATE TABLE favorites (
     id INT AUTO_INCREMENT PRIMARY KEY,
     paper_id INT NOT NULL,

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Teacher() {
   return (
-    <div>Welcome to the teachers researh hub </div>
+    <div>Teacher portal</div>
   )
 }
 

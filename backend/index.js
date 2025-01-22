@@ -109,11 +109,11 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/upload', upload.single('pdf'), (req, res) => {
-  const { title, abstract, keywords } = req.body;
+  const { title, abstract, keywords, uploaded_by } = req.body;
   const pdfPath = req.file.path;
 
-  const query = 'INSERT INTO papers (title, abstract, keywords, pdf_path) VALUES (?, ?, ?, ?)';
-  db.query(query, [title, abstract, keywords, pdfPath], (err, result) => {
+  const query = 'INSERT INTO papers (title, abstract, keywords, pdf_path, uploaded_by) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [title, abstract, keywords, pdfPath, uploaded_by], (err, result) => {
     if (err) {
       console.error('Database query error:', err.message);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -121,6 +121,7 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
     res.json({ success: true, message: 'Research paper uploaded successfully' });
   });
 });
+
 
 app.get('/download/:id', (req, res) => {
   const { id } = req.params;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -6,6 +5,7 @@ const SubmitResearchPaper = () => {
   const [title, setTitle] = useState('');
   const [abstract, setAbstract] = useState('');
   const [keywords, setKeywords] = useState('');
+  const [uploadedBy, setUploadedBy] = useState('');  // New state for uploaded_by
   const [pdfFile, setPdfFile] = useState(null);
 
   const handleSubmit = (e) => {
@@ -15,6 +15,7 @@ const SubmitResearchPaper = () => {
     formData.append('title', title);
     formData.append('abstract', abstract);
     formData.append('keywords', keywords);
+    formData.append('uploaded_by', uploadedBy);  // Include uploaded_by in form data
     formData.append('pdf', pdfFile);
 
     axios.post('http://localhost:5000/upload', formData, {
@@ -65,6 +66,15 @@ const SubmitResearchPaper = () => {
           />
         </div>
         <div className="mb-4">
+          <label className="block text-gray-700">Uploaded By</label>
+          <input
+            type="text"
+            value={uploadedBy}
+            onChange={(e) => setUploadedBy(e.target.value)}
+            className="mt-2 p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+        <div className="mb-4">
           <label className="block text-gray-700">Upload PDF</label>
           <input
             type="file"
@@ -74,7 +84,6 @@ const SubmitResearchPaper = () => {
           />
         </div>
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit</button>
-        
       </form>
     </div>
   );
