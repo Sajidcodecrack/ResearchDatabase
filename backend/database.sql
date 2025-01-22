@@ -259,7 +259,7 @@ SELECT
         ELSE 'Long'
     END AS abstract_length_category
 FROM papers;
-
+--  favourute paper list from user 
 SELECT 
     f.id AS favorite_id,
     p.title AS paper_title,
@@ -276,6 +276,68 @@ ORDER BY
     f.id;
 
 
+-- some complex quries for paper and favorites
+SELECT uploaded_by, COUNT(*) AS total_papers
+FROM papers
+GROUP BY uploaded_by
+ORDER BY total_papers DESC;
+-- 2
+SELECT keywords, COUNT(*) AS usage_count
+FROM papers
+GROUP BY keywords
+ORDER BY usage_count DESC
+LIMIT 5;
+-- 3 average papers 
+SELECT uploaded_by, AVG(paper_count) AS avg_papers_per_user
+FROM (
+  SELECT uploaded_by, COUNT(*) AS paper_count
+  FROM papers
+  GROUP BY uploaded_by
+) AS subquery
+GROUP BY uploaded_by;
+-- 4 who have most favoritied papers 
+SELECT registration_db.name AS user_name, COUNT(favorites.id) AS total_favorites
+FROM registration_db
+LEFT JOIN favorites ON registration_db.id = favorites.user_id
+GROUP BY registration_db.name
+HAVING total_favorites = (
+  SELECT MAX(total_favorites) FROM (
+    SELECT user_id, COUNT(*) AS total_favorites
+    FROM favorites
+    GROUP BY user_id
+  ) AS subquery
+);
+-- 5 Ranking papers 
+SELECT papers.title, papers.abstract, COUNT(favorites.id) AS total_favorites
+FROM papers
+LEFT JOIN favorites ON papers.id = favorites.paper_id
+GROUP BY papers.title, papers.abstract
+ORDER BY total_favorites DESC;
+-- Average length of abstracts 
+SELECT keywords, AVG(LENGTH(abstract)) AS avg_abstract_length
+FROM papers
+GROUP BY keywords
+ORDER BY avg_abstract_length DESC;
+-- Retrive the most recent paper 
+SELECT uploaded_by, MAX(upload_time) AS last_uploaded_time, title, abstract, keywords
+FROM papers
+GROUP BY uploaded_by, title, abstract, keywords
+ORDER BY last_uploaded_time DESC;
+-- Retrive who have favorited at least one paper
+SELECT registration_db.name AS user_name, COUNT(favorites.id) AS total_favorites
+FROM registration_db
+LEFT JOIN favorites ON registration_db.id = favorites.user_id
+WHERE favorites.id IS NOT NULL
+GROUP BY registration_db.name
+ORDER BY total_favorites DESC;
+-- Retrieve the trend of the recent papers in 7 days 
+SELECT DATE(upload_time) AS upload_date, COUNT(*) AS daily_upload_count
+FROM papers
+WHERE upload_time >= CURDATE() - INTERVAL 7 DAY
+GROUP BY upload_date
+ORDER BY upload_date DESC;
+
+
 SELECT * FROM registration_db;
 
 SELECT * FROM login_db;
@@ -285,5 +347,3 @@ SELECT * FROM dashboard;
 SELECT * FROM papers;
 SELECT * FROM favorites;
 
-ALTER TABLE papers
-ADD COLUMN upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
