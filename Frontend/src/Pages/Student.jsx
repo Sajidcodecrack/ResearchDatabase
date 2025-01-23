@@ -1,8 +1,7 @@
 import React from 'react'
 import AssignedTopics from '../components/AssignedTopic'
 import SubmitResearchPaper from '../components/SubmitResearch'
-import RequestGuidance from '../components/RequestGuidance'
-import CollaborationRequests from '../components/Collaboration'
+
 import Tpaperlist from '../components/Tpaperlist'
 
 const Student = () => {
@@ -14,8 +13,7 @@ const Student = () => {
       <main className="space-y-10">
         <AssignedTopics></AssignedTopics>
         <SubmitResearchPaper></SubmitResearchPaper>
-        <RequestGuidance></RequestGuidance>
-        <CollaborationRequests></CollaborationRequests>
+
         <Tpaperlist></Tpaperlist>
       </main>
     </div>
