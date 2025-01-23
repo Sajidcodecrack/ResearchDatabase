@@ -140,6 +140,7 @@ app.post('/Tpaperlist', upload.single('pdf'), (req, res) => {
 
 app.get('/download/:id', (req, res) => {
   const { id } = req.params;
+  const userId = req.query.userId; // Assume userId is passed as a query parameter
 
   const query = 'SELECT pdf_path FROM papers WHERE id = ?';
   db.query(query, [id], (err, results) => {
@@ -153,11 +154,19 @@ app.get('/download/:id', (req, res) => {
     }
 
     const pdfPath = results[0].pdf_path;
-    res.download(pdfPath, (err) => {
-      if (err) {
-        console.error('Error downloading file:', err.message);
-        res.status(500).json({ success: false, message: 'Internal server error.' });
+
+    // Log the download in the download_logs table
+    const logQuery = 'INSERT INTO download_logs (user_id, paper_id) VALUES (?, ?)';
+    db.query(logQuery, [userId, id], (logErr) => {
+      if (logErr) {
+        console.error('Error logging download:', logErr.message);
       }
+      res.download(pdfPath, (downloadErr) => {
+        if (downloadErr) {
+          console.error('Error downloading file:', downloadErr.message);
+          res.status(500).json({ success: false, message: 'Internal server error.' });
+        }
+      });
     });
   });
 });
