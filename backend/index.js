@@ -108,6 +108,7 @@ app.post('/register', (req, res) => {
   });
 });
 
+// Endpoint for students to upload papers
 app.post('/upload', upload.single('pdf'), (req, res) => {
   const { title, abstract, keywords, uploaded_by } = req.body;
   const pdfPath = req.file.path;
@@ -122,6 +123,20 @@ app.post('/upload', upload.single('pdf'), (req, res) => {
   });
 });
 
+// Endpoint for teachers to upload papers
+app.post('/Tpaperlist', upload.single('pdf'), (req, res) => {
+  const { title, abstract, keywords, uploaded_by } = req.body;  // Ensure uploaded_by is coming from req.body
+  const pdfPath = req.file.path;
+
+  const query = 'INSERT INTO papers (title, abstract, keywords, pdf_path, uploaded_by) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [title, abstract, keywords, pdfPath, uploaded_by], (err, result) => {
+    if (err) {
+      console.error('Database query error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Research paper uploaded successfully' });
+  });
+});
 
 app.get('/download/:id', (req, res) => {
   const { id } = req.params;
@@ -178,7 +193,7 @@ app.post('/favorite', (req, res) => {
   });
 });
 
-// New route to fetch all papers
+// Route to fetch all papers
 app.get('/papers', (req, res) => {
   const query = 'SELECT * FROM papers';
   db.query(query, (err, results) => {

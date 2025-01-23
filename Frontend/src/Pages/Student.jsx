@@ -3,6 +3,7 @@ import AssignedTopics from '../components/AssignedTopic'
 import SubmitResearchPaper from '../components/SubmitResearch'
 import RequestGuidance from '../components/RequestGuidance'
 import CollaborationRequests from '../components/Collaboration'
+import Tpaperlist from '../components/Tpaperlist'
 
 const Student = () => {
   return (
@@ -15,6 +16,7 @@ const Student = () => {
         <SubmitResearchPaper></SubmitResearchPaper>
         <RequestGuidance></RequestGuidance>
         <CollaborationRequests></CollaborationRequests>
+        <Tpaperlist></Tpaperlist>
       </main>
     </div>
   );
