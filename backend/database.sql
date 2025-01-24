@@ -135,7 +135,7 @@ SELECT registration_db.name AS user_name, registration_db.email, dashboard.login
 FROM registration_db
     JOIN dashboard ON registration_db.id = dashboard.registration_id
 WHERE
-    registration_db.email LIKE '%@gmail.com%'
+    registration_db.email LIKE '%gmail.com%'
     AND dashboard.login_count > 1;
 
 -- 8. Find users who logged in today
