@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from './components/SearchBar';
 import PapersList from './components/PapersList';
 import UploadForm from './components/UploadForm';
+import PapersSearch from './components/PapersSearch';
 import axios from 'axios';
 
 function Papers() {
@@ -21,14 +21,7 @@ function Papers() {
     }
   };
 
-  const handleSearch = (query) => {
-    const filteredPapers = papers.filter((paper) =>
-      paper.title.toLowerCase().includes(query.toLowerCase()) ||
-      paper.author.toLowerCase().includes(query.toLowerCase()) ||
-      paper.publicationYear.includes(query)
-    );
-    setPapers(filteredPapers);
-  };
+  
 
   const handleFavorite = async (id) => {
     try {
@@ -55,9 +48,10 @@ function Papers() {
 
   return (
     <div className="container mx-auto p-4">
-      <SearchBar onSearch={handleSearch} />
+      {/* <SearchBar onSearch={handleSearch} /> */}
       <PapersList papers={papers} onFavorite={handleFavorite} />
-      <UploadForm onUpload={handleUpload} /> {/* Added UploadForm component */}
+      <UploadForm onUpload={handleUpload} />
+      <PapersSearch></PapersSearch> {/* Added UploadForm component */}
     </div>
   );
 }

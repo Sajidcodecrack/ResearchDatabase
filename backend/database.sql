@@ -377,3 +377,4 @@ SELECT * FROM dashboard;
 SELECT * FROM papers;
 
 SELECT * FROM favorites;
+

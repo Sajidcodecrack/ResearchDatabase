@@ -213,6 +213,26 @@ app.get('/papers', (req, res) => {
     res.json(results);
   });
 });
+app.get('/search', (req, res) => {
+  const { query } = req.query;
+  const searchQuery = `
+    SELECT * FROM papers 
+    WHERE title LIKE ? 
+    OR keywords LIKE ? 
+    OR uploaded_by LIKE ?
+  `;
+  const likeQuery = `%${query}%`;
+
+  db.query(searchQuery, [likeQuery, likeQuery, likeQuery], (err, results) => {
+    if (err) {
+      console.error('Database query error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json(results);
+  });
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
