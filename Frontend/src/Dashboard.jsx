@@ -56,10 +56,10 @@ const Dashboard = () => {
               {/* Welcome Header */}
               <div className="text-center mb-12">
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                  Welcome to Exam Manager
+                   Research Vault Dashboard
                 </h1>
                 <p className="text-gray-600 text-lg">
-                  Manage your academic resources efficiently
+                  Manage your resource and research papers efficiently
                 </p>
               </div>
 
@@ -114,7 +114,7 @@ const Dashboard = () => {
                       Papers
                     </h3>
                     <p className="text-gray-600 text-center">
-                      Access and manage examination papers
+                      Access and manage research papers
                     </p>
                   </div>
                 </button>
