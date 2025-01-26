@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 function PaperCard({ paper, onFavorite }) {
@@ -7,12 +6,42 @@ function PaperCard({ paper, onFavorite }) {
   };
 
   return (
-    <div className="border p-4 rounded shadow">
-      <h2 className="text-lg font-bold">{paper.title}</h2>
-      <p>{paper.abstract}</p>
-      <button onClick={handleFavorite} className="bg-yellow-500 text-white p-2 rounded mt-2">
-        Favorite
-      </button>
+    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 border border-gray-100">
+      <div className="flex justify-between items-start mb-4">
+        <h2 className="text-xl font-semibold text-gray-800 pr-4">
+          {paper.title}
+        </h2>
+        <button 
+          onClick={handleFavorite}
+          className="p-2 hover:bg-yellow-50 rounded-full transition-colors duration-150"
+          aria-label="Add to favorites"
+        >
+          <svg
+            className={`w-6 h-6 ${paper.isFavorited ? 'text-yellow-400' : 'text-gray-300'} hover:text-yellow-400`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </button>
+      </div>
+
+      <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+        {paper.abstract}
+      </p>
+
+      {paper.keywords && (
+        <div className="flex flex-wrap gap-2">
+          {paper.keywords.split(',').map((keyword, index) => (
+            <span
+              key={index}
+              className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-full"
+            >
+              {keyword.trim()}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

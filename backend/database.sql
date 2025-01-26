@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS Research_Hub;
-
+-- DROP DATABASE Research_Hub;
 USE Research_Hub;
 
 -- Drop existing tables if they exist

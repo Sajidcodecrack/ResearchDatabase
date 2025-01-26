@@ -49,9 +49,10 @@ function Papers() {
   return (
     <div className="container mx-auto p-4">
       {/* <SearchBar onSearch={handleSearch} /> */}
+      <PapersSearch></PapersSearch>
       <PapersList papers={papers} onFavorite={handleFavorite} />
-      <UploadForm onUpload={handleUpload} />
-      <PapersSearch></PapersSearch> {/* Added UploadForm component */}
+      {/* <UploadForm onUpload={handleUpload} /> */}
+       {/* Added UploadForm component */}
     </div>
   );
 }

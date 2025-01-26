@@ -30,34 +30,48 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#F5EFFF] via-[#E5D9F2] to-[#CDC1FF]">
-      <div className="bg-[#A294F9] p-8 rounded-xl shadow-lg w-full max-w-sm">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Login</h2>
-        <p className="text-sm text-center mb-8 text-gray-600">
-        <p class="font-bold text-lg">Access your account to continue.</p>
-        </p>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              <p class="font-bold text-lg">Email</p>
+      <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md">
+        <div className="text-center">
+          <div className="w-20 h-20 bg-indigo-500 rounded-full mx-auto flex items-center justify-center mb-6">
+            <svg
+              className="w-12 h-12 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              ></path>
+            </svg>
+          </div>
+          <h2 className="text-4xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+          <p className="text-lg text-gray-600 mb-8">Login to access your account</p>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
             </label>
             <input
               type="email"
-              className="block w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+              className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
             />
           </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-            <p class="font-bold text-lg">Password</p>
-
-              
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Password
             </label>
             <input
               type="password"
-              className="block w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+              className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
@@ -66,9 +80,8 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white font-semibold p-3 rounded-xl hover:bg-indigo-700 transition duration-200"
+            className="w-full bg-indigo-600 text-white font-semibold p-4 rounded-xl hover:bg-indigo-700 transition duration-200 shadow-lg"
           >
-            
             Login
           </button>
         </form>
@@ -76,9 +89,9 @@ const Login = () => {
           <p className="text-sm text-gray-600">Don't have an account?</p>
           <button
             onClick={handleRegister}
-            className="mt-2 text-indigo-500 font-semibold hover:underline"
+            className="mt-2 text-indigo-600 font-semibold hover:text-indigo-700 transition duration-200"
           >
-            Register
+            Register here
           </button>
         </div>
         {message && (

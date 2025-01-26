@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 //  import Calendar from 'react-calendar';
-import Calendar from './calender';
+
 
 // const Navbar = () => (
 //   <div className="bg-white shadow p-4">
@@ -20,12 +20,7 @@ function Dash() {
         <button className="bg-blue-600 text-white p-4 rounded-lg shadow-lg hover:bg-blue-500 text-lg w-1/3">Papers</button>
       </div> */}
       
-      <div className='flex'>
-        <div className="bg-white w-64 h-52 p-4 rounded shadow mb-4">
-          <Calendar />
-        </div>
-        {/* <Navbar></Navbar> */}
-      </div>
+      
     </div>
   );
 }
