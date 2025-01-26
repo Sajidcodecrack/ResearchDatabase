@@ -7,7 +7,8 @@ import Student from './Pages/Student';
 import Dash from './component/DashHome'; // Import DashHome
 import Teacher from './Teacher';
 import Paper from './Paper';
- // Import Calender
+import Collaboration from './Pages/Collaboration';
+// Import Calender
 
 
 
@@ -21,9 +22,10 @@ function App() {
       <Route path="/Student" element={<Student />} />
       <Route path="/Teacher" element={<Teacher />} />
       <Route path="/Paper" element={<Paper />} />
-   
+      <Route path="/Collaboration" element={<Collaboration />} />
 
-      
+
+
     </Routes>
   );
 }

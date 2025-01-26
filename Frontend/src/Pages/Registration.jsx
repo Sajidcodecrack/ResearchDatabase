@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Register = ({ onRegisterSuccess }) => { // Add onRegisterSuccess prop
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,6 +16,9 @@ const Register = () => {
       const response = await axios.post('http://localhost:5000/register', { name, email, password, role });
       setMessage(response.data.message || 'Registration successful!');
       setTimeout(() => navigate('/dashboard'), 2000); // Redirect to dashboard after 2 seconds
+      if (onRegisterSuccess) {
+        onRegisterSuccess(); // Notify parent component of successful registration
+      }
     } catch (error) {
       console.error('Error during registration:', error);
       setMessage('An error occurred during registration. Please try again later.');

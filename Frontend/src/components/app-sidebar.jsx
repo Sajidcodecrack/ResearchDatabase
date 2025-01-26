@@ -35,9 +35,9 @@ const items = [
   },
   
   {
-    title: "Calendar",
-    url: "/Calender",
-    icon: Calendar,
+    title: "Collaboration",
+    url: "/Collaboration",
+    icon: Home,
   },
 ];
 
