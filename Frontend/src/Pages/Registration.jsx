@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -7,12 +8,14 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/register', { name, email, password, role });
       setMessage(response.data.message || 'Registration successful!');
+      setTimeout(() => navigate('/dashboard'), 2000); // Redirect to dashboard after 2 seconds
     } catch (error) {
       console.error('Error during registration:', error);
       setMessage('An error occurred during registration. Please try again later.');
@@ -21,9 +24,9 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#F5EFFF] via-[#E5D9F2] to-[#CDC1FF]">
-      <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md">
+      <div className="bg-[#A294F9] p-10 rounded-3xl shadow-2xl w-full max-w-md">
         <div className="text-center">
-          <div className="w-20 h-20 bg-indigo-500 rounded-full mx-auto flex items-center justify-center mb-6">
+          <div className="w-20 h-20 bg-indigo-600 rounded-full mx-auto flex items-center justify-center mb-6">
             <svg
               className="w-12 h-12 text-white"
               fill="none"
@@ -39,12 +42,12 @@ const Register = () => {
               ></path>
             </svg>
           </div>
-          <h2 className="text-4xl font-bold text-gray-800 mb-2">Create Account</h2>
-          <p className="text-lg text-gray-600 mb-8">Join us to get started</p>
+          <h2 className="text-4xl font-bold text-white mb-2">Create Account</h2>
+          <p className="text-lg text-gray-200 mb-8">Join us to get started</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+            <label className="block text-sm font-medium text-gray-200 mb-2">Name</label>
             <input
               type="text"
               className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
@@ -55,7 +58,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-200 mb-2">Email</label>
             <input
               type="email"
               className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
@@ -66,7 +69,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+            <label className="block text-sm font-medium text-gray-200 mb-2">Password</label>
             <input
               type="password"
               className="w-full p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
@@ -77,7 +80,7 @@ const Register = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+            <label className="block text-sm font-medium text-gray-200 mb-2">Role</label>
             <div className="flex items-center space-x-6 mt-2">
               <label className="flex items-center">
                 <input
@@ -88,7 +91,7 @@ const Register = () => {
                   onChange={(e) => setRole(e.target.value)}
                   required
                 />
-                <span className="ml-2 text-gray-700">Student</span>
+                <span className="ml-2 text-gray-200">Student</span>
               </label>
               <label className="flex items-center">
                 <input
@@ -99,7 +102,7 @@ const Register = () => {
                   onChange={(e) => setRole(e.target.value)}
                   required
                 />
-                <span className="ml-2 text-gray-700">Teacher</span>
+                <span className="ml-2 text-gray-200">Teacher</span>
               </label>
             </div>
           </div>
@@ -111,7 +114,7 @@ const Register = () => {
           </button>
         </form>
         {message && (
-          <div className="mt-6 text-center text-green-600 font-bold">{message}</div>
+          <div className="mt-6 text-center text-green-300 font-bold">{message}</div>
         )}
       </div>
     </div>
