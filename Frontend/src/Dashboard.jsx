@@ -78,7 +78,7 @@ const Dashboard = () => {
                       Students
                     </h3>
                     <p className="text-gray-600 text-center">
-                      Manage student records and exam registrations
+                      Manage student resource and research papers
                     </p>
                   </div>
                 </button>
@@ -96,7 +96,7 @@ const Dashboard = () => {
                       Teachers
                     </h3>
                     <p className="text-gray-600 text-center">
-                      Manage faculty resources and exam papers
+                      Manage faculty  resources and research  papers
                     </p>
                   </div>
                 </button>
@@ -114,7 +114,7 @@ const Dashboard = () => {
                       Papers
                     </h3>
                     <p className="text-gray-600 text-center">
-                      Access and manage research papers
+                      Access and manage research papers & reports and resources
                     </p>
                   </div>
                 </button>

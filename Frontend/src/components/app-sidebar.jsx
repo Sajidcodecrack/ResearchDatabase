@@ -36,7 +36,7 @@ const items = [
   
   {
     title: "Collaboration",
-    url: "/Collaboration",
+    url: "/CollaborationPage",
     icon: Home,
   },
 ];

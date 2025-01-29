@@ -251,6 +251,18 @@ app.get('/search', (req, res) => {
     res.json(results);
   });
 });
+app.get('/registration_db', (req, res) => {
+  const query = 'SELECT * FROM registration_db'; // Correct SQL query
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Database query error:', err.message);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json(results); // Send JSON response
+  });
+});
+
+
 
 // Start the server
 app.listen(port, () => {

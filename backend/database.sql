@@ -89,16 +89,6 @@ SELECT
 FROM registration_db
     LEFT JOIN dashboard ON registration_db.id = dashboard.registration_id;
 
--- 3. Find users with the highest login counts using a subquery
-SELECT registration_db.name AS user_name, registration_db.email, dashboard.login_count
-FROM registration_db
-    JOIN dashboard ON registration_db.id = dashboard.registration_id
-WHERE
-    dashboard.login_count = (
-        SELECT MAX(login_count)
-        FROM dashboard
-    );
-
 -- 4. Retrieve users who have registered but never logged in
 SELECT registration_db.*
 FROM registration_db
@@ -117,26 +107,13 @@ FROM registration_db
 GROUP BY
     registration_db.role;
 
--- 6. Retrieve login trends by role, with subquery to calculate average logins
-SELECT
-    registration_db.role,
-    COUNT(dashboard.id) AS total_logins,
-    MAX(dashboard.last_login) AS last_login,
-    AVG(
-        COALESCE(dashboard.login_count, 0)
-    ) AS avg_logins
-FROM registration_db
-    LEFT JOIN dashboard ON registration_db.id = dashboard.registration_id
-GROUP BY
-    registration_db.role;
-
 -- 7. Retrieve users with specific email domains who have logged in more than a certain number of times
 SELECT registration_db.name AS user_name, registration_db.email, dashboard.login_count
 FROM registration_db
     JOIN dashboard ON registration_db.id = dashboard.registration_id
 WHERE
     registration_db.email LIKE '%gmail.com%'
-    AND dashboard.login_count > 1;
+    AND dashboard.login_count > 0;
 
 -- 8. Find users who logged in today
 SELECT registration_db.name AS user_name, registration_db.email, dashboard.last_login
@@ -180,37 +157,6 @@ GROUP BY
 ORDER BY usage_count DESC
 LIMIT 2;
 
--- 13. Retrieve all papers authored by users with the most logins
-SELECT p.title, p.abstract, r.name AS author_name, d.login_count
-FROM
-    papers p
-    JOIN registration_db r ON r.id = p.id
-    JOIN dashboard d ON d.registration_id = r.id
-WHERE
-    d.login_count = (
-        SELECT MAX(login_count)
-        FROM dashboard
-    );
-
--- 14. Find the average number of logins per user for each role
-SELECT r.role, AVG(COALESCE(d.login_count, 0)) AS avg_logins_per_user
-FROM
-    registration_db r
-    LEFT JOIN dashboard d ON r.id = d.registration_id
-GROUP BY
-    r.role;
-
--- 15. Retrieve users who have never uploaded a paper
-SELECT r.*
-FROM registration_db r
-WHERE
-    NOT EXISTS (
-        SELECT 1
-        FROM papers p
-        WHERE
-            p.id = r.id
-    );
-
 -- 16. List all papers along with their authors' roles
 SELECT
     p.title,
@@ -219,16 +165,6 @@ SELECT
     r.role AS author_role
 FROM papers p
     JOIN registration_db r ON p.id = r.id;
-
--- 17. Retrieve login trends for the past week by role
-SELECT r.role, COUNT(d.id) AS total_logins, AVG(d.login_count) AS avg_logins
-FROM
-    registration_db r
-    LEFT JOIN dashboard d ON r.id = d.registration_id
-WHERE
-    d.last_login >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
-GROUP BY
-    r.role;
 
 -- 18. Find the latest paper uploaded along with its author information
 SELECT p.title, p.abstract, p.keywords, p.pdf_path, r.name AS author_name, r.email
@@ -243,19 +179,6 @@ FROM registration_db r
     LEFT JOIN papers p ON r.id = p.id
 GROUP BY
     r.role;
-
--- 20. Retrieve login activity for users who have uploaded at least one paper
-SELECT r.name AS user_name, r.email, d.login_count, d.last_login
-FROM
-    registration_db r
-    JOIN dashboard d ON r.id = d.registration_id
-WHERE
-    EXISTS (
-        SELECT 1
-        FROM papers p
-        WHERE
-            p.id = r.id
-    );
 
 SELECT
     title,
@@ -377,4 +300,3 @@ SELECT * FROM dashboard;
 SELECT * FROM papers;
 
 SELECT * FROM favorites;
-
