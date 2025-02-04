@@ -1,1 +1,2 @@
 # DatabaseProject
+In this project we made reseach paper ands projects and assingments reports sharing webpage for the students and teachers.In here the most exciting feature is students and teacher can do collaborative reseach in a project. Also with the powerful bycrypt hashing method of security. Also powerful searh, download uploading the projects paper interactive dashboard things are implemented in here using the MERN tech stack 
